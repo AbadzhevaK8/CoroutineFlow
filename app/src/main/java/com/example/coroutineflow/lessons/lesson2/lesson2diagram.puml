@@ -1,0 +1,44 @@
+@startuml
+
+class Lesson2 {
+    + suspend main()
+    + getFlowByFlowBuilder(): Flow<Int>
+    + suspend isPrime(n: Int): Boolean
+}
+
+class UsersRepository {
+    - users: MutableList<String>
+
+    + suspend addUser(user: String)
+    + suspend loadUsers(): List<String>
+}
+
+class UsersViewModel {
+    - repository: UsersRepository
+    - _users: MutableLiveData<List<String>>
+    + users: LiveData<List<String>>
+
+    + addUser(user: String)
+    - loadUsers()
+}
+
+class UsersActivity {
+    - binding: ActivityUsersBinding
+    - viewModel: UsersViewModel
+
+    + onCreate(savedInstanceState: Bundle?)
+    - setupListeners()
+    - observeViewModel()
+}
+
+class Users2Activity {
+    - binding: ActivityUsersBinding
+    - viewModel: UsersViewModel
+
+    + onCreate(savedInstanceState: Bundle?)
+}
+
+UsersViewModel ..|> UsersRepository
+UsersActivity --> UsersViewModel : use
+Users2Activity --> UsersViewModel : use
+@enduml
