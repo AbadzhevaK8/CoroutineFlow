@@ -1,12 +1,18 @@
 @startuml
 
+class MainActivity {
+    - binding: ActivityMainBinding
+
+    + onCreate(savedInstanceState: Bundle?)
+}
+
 class Lesson2 {
     + suspend main()
     + getFlowByFlowBuilder(): Flow<Int>
     + suspend isPrime(n: Int): Boolean
 }
 
-class UsersRepository {
+object UsersRepository {
     - users: MutableList<String>
 
     + suspend addUser(user: String)
@@ -38,7 +44,8 @@ class Users2Activity {
     + onCreate(savedInstanceState: Bundle?)
 }
 
-UsersViewModel ..|> UsersRepository
-UsersActivity --> UsersViewModel : use
-Users2Activity --> UsersViewModel : use
+UsersViewModel ..> UsersRepository : uses
+UsersActivity --> UsersViewModel : uses
+Users2Activity --> UsersViewModel : uses
+MainActivity --> UsersActivity : uses
 @enduml
