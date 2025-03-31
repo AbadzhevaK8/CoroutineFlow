@@ -35,6 +35,8 @@ class UsersActivity {
     + onCreate(savedInstanceState: Bundle?)
     - setupListeners()
     - observeViewModel()
+
+    + newIntent(context: Context): Intent
 }
 
 class Users2Activity {
@@ -46,6 +48,7 @@ class Users2Activity {
 
 UsersViewModel ..> UsersRepository : uses
 UsersActivity --> UsersViewModel : uses
+UsersActivity --> Users2Activity : calls
 Users2Activity --> UsersViewModel : uses
-MainActivity --> UsersActivity : uses
+MainActivity --> UsersActivity : calls
 @enduml

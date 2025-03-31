@@ -21,6 +21,7 @@ class UsersViewModel : ViewModel() {
     fun addUser(user: String) {
         viewModelScope.launch {
             repository.addUser(user)
+            loadUsers()
         }
     }
 
