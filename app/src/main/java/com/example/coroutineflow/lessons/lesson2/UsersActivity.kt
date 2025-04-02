@@ -45,6 +45,11 @@ class UsersActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadUsers()
+    }
+
     companion object {
         fun newIntent(context: Context) = Intent(context, UsersActivity::class.java)
     }

@@ -25,7 +25,7 @@ class UsersViewModel : ViewModel() {
         }
     }
 
-    private fun loadUsers() {
+     fun loadUsers() {
         viewModelScope.launch {
             _users.value = repository.loadUsers()
         }
