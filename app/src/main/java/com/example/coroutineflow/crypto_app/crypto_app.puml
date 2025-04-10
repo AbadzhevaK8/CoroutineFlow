@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class MainActivity {
+    - binding: ActivityMainBinding
+
+    + onCreate(savedInstanceState: Bundle?)
+}
+
+@enduml
