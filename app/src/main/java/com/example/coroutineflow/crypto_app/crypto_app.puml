@@ -1,10 +1,73 @@
 @startuml
-'https://plantuml.com/class-diagram
+' https://plantuml.com/class-diagram
 
-class MainActivity {
-    - binding: ActivityMainBinding
-
-    + onCreate(savedInstanceState: Bundle?)
+package coroutineflow {
+    class MainActivity {
+        - binding: ActivityMainBinding
+        + onCreate(savedInstanceState: Bundle?)
+    }
 }
+
+package coroutineflow.crypto_app {
+    class CryptoActivity {
+        - binding: ActivityCryptoBinding
+        - viewModel: CryptoViewModel
+        - adapter: CryptoAdapter
+        + onCreate(savedInstanceState: Bundle?)
+        - setupRecyclerView()
+        - observeViewModel()
+        + newIntent(context: Context): Intent
+    }
+
+    class CryptoViewModel {
+        - repository: CryptoRepository
+        - _state: MutableLiveData<State>
+        + state: LiveData<State>
+        - loadData()
+    }
+
+    class CryptoRepository {
+        - currencyNames: List<String>
+        - currencyList: MutableList<Currency>
+
+        + getCurrencyList(): List<Currency>
+        - generateCurrencyList()
+    }
+
+    class Currency {
+        + name: String
+        + price: Int
+    }
+
+    class CryptoAdapter {
+        + onCreateViewHolder()
+        + onBindViewHolder()
+    }
+
+    class CryptoViewHolder {
+        + binding: CryptoItemBinding
+    }
+
+    abstract class State
+    class Initial
+    class Loading
+    class Content {
+        + currencyList: List<Currency>
+    }
+
+    State <|-- Initial
+    State <|-- Loading
+    State <|-- Content
+
+    CryptoActivity --> CryptoViewModel
+    CryptoActivity --> CryptoAdapter
+    CryptoViewModel --> CryptoRepository
+    CryptoViewModel --> State
+    Content --> Currency
+    CryptoAdapter --> CryptoViewHolder
+
+    MainActivity ..> CryptoActivity : startActivity()
+}
+    MainActivity ..> UsersActivity : startActivity()
 
 @enduml
