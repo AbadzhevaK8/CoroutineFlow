@@ -27,10 +27,7 @@ class CryptoViewModel : ViewModel() {
     private fun loadData() {
         repository.getCurrencyList()
             .onStart {
-                val currentState = _state.value
-                if (currentState !is State.Content || currentState.currencyList.isEmpty()) {
-                    _state.value = State.Loading
-                }
+                _state.value = State.Loading
             }
             .filter { it.isNotEmpty() }
             .onEach { _state.value = State.Content(currencyList = it) }
