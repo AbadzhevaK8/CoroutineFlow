@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class CryptoViewModel : ViewModel() {
@@ -26,11 +27,10 @@ class CryptoViewModel : ViewModel() {
 
     private fun loadData() {
         repository.getCurrencyList()
-            .onStart {
-                _state.value = State.Loading
-            }
             .filter { it.isNotEmpty() }
-            .onEach { _state.value = State.Content(currencyList = it) }
+            .map { State.Content(currencyList = it) as State }
+            .onStart { emit(State.Loading) }
+            .onEach { _state.value = it }
             .launchIn(viewModelScope)
     }
 }
