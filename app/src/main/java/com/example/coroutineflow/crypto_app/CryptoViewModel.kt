@@ -4,6 +4,7 @@ package com.example.coroutineflow.crypto_app
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.onEach
@@ -18,19 +19,9 @@ class CryptoViewModel : ViewModel() {
 
     private val repository = CryptoRepository
 
-    private val _state = MutableLiveData<State>(State.Initial)
-    val state: LiveData<State> = _state
-
-    init {
-        loadData()
-    }
-
-    private fun loadData() {
-        repository.getCurrencyList()
-            .filter { it.isNotEmpty() }
-            .map { State.Content(currencyList = it) as State }
-            .onStart { emit(State.Loading) }
-            .onEach { _state.value = it }
-            .launchIn(viewModelScope)
-    }
+    val state: LiveData<State> = repository.getCurrencyList()
+        .filter { it.isNotEmpty() }
+        .map { State.Content(currencyList = it) as State }
+        .onStart { emit(State.Loading) }
+        .asLiveData()
 }
