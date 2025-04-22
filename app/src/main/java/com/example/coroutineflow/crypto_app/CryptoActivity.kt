@@ -38,25 +38,17 @@ class CryptoActivity : AppCompatActivity() {
                 is State.Initial -> {
                     binding.progressBarLoading.isVisible = false
                 }
+
                 is State.Loading -> {
                     binding.progressBarLoading.isVisible = true
                 }
+
                 is State.Content -> {
                     binding.progressBarLoading.isVisible = false
                     adapter.submitList(it.currencyList)
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadData()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.stopLoading()
     }
 
     companion object {
