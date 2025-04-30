@@ -9,6 +9,9 @@ suspend fun main() {
     flow.collect {
         println("Collected: $it")
     }
+    flow.collect {
+        println("Collected: $it")
+    }
 }
 
 fun getFlow(): Flow<Int> = flow {
