@@ -1,17 +1,31 @@
 package com.example.coroutineflow.lessons.lesson8
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+
+val coroutineScope = CoroutineScope(Dispatchers.IO)
 
 suspend fun main() {
     val flow = getFlow()
-    flow.collect {
-        println("Collected: $it")
+
+    val job1 = coroutineScope.launch {
+        flow.collect {
+            println(it)
+        }
     }
-    flow.collect {
-        println("Collected: $it")
+
+    val job2 = coroutineScope.launch {
+        flow.collect {
+            println(it)
+        }
     }
+
+    job1.join()
+    job2.join()
 }
 
 fun getFlow(): Flow<Int> = flow {
