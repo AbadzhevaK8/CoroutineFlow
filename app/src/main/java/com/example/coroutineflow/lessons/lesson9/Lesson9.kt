@@ -22,11 +22,11 @@ suspend fun main() {
         }
     }
 
-    val job1 = coroutineScope.launch {
-        flow.collect {
-            println("Got from 1st collector:  $it")
-        }
-    }
+//    val job1 = coroutineScope.launch {
+//        flow.collect {
+//            println("Got from 1st collector:  $it")
+//        }
+//    }
     delay(5000)
     val job2 = coroutineScope.launch {
         flow.collect {
@@ -34,7 +34,7 @@ suspend fun main() {
         }
     }
 
-    job1.join()
+//    job1.join()
     job2.join()
 }
 
