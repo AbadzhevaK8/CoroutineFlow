@@ -15,18 +15,18 @@ suspend fun main() {
     val flow = MutableSharedFlow<Int>()
 
     coroutineScope.launch {
-        repeat(100) {
+        repeat(5) {
             println("Emitted: $it")
             flow.emit(it)
             delay(1000)
         }
     }
 
-//    val job1 = coroutineScope.launch {
-//        flow.collect {
-//            println("Got from 1st collector:  $it")
-//        }
-//    }
+    val job1 = coroutineScope.launch {
+        flow.collect {
+            println("Got from 1st collector:  $it")
+        }
+    }
     delay(5000)
     val job2 = coroutineScope.launch {
         flow.collect {
@@ -34,12 +34,12 @@ suspend fun main() {
         }
     }
 
-//    job1.join()
+    job1.join()
     job2.join()
 }
 
 fun getFlow(): Flow<Int> = flow {
-    repeat(100) {
+    repeat(5) {
         println("Emitted: $it")
         emit(it)
         delay(1000)
