@@ -15,6 +15,9 @@ class CryptoViewModel : ViewModel() {
         .filter { it.isNotEmpty() }
         .map { State.Content(currencyList = it) as State }
         .onStart { emit(State.Loading) }
+    fun refreshList() {
+        TODO("Not yet implemented")
+    }
 }
 
 
