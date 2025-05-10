@@ -5,6 +5,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlin.random.Random
 
@@ -14,7 +15,7 @@ object CryptoRepository {
     private val currencyList = mutableListOf<Currency>()
 
     private val _currencyListFlow = MutableSharedFlow<List<Currency>>()
-    val currencyListFlow: SharedFlow<List<Currency>> = _currencyListFlow
+    val currencyListFlow = _currencyListFlow.asSharedFlow()
 
     suspend fun loadData() {
         delay(3000)
