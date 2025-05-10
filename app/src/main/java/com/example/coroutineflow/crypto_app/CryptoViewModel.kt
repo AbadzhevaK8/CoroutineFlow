@@ -4,6 +4,7 @@ package com.example.coroutineflow.crypto_app
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -19,7 +20,7 @@ class CryptoViewModel : ViewModel() {
         }
     }
 
-    val state: Flow<State> = repository.currencyListFlow
+    val state: Flow<State> = (repository.currencyListFlow as MutableSharedFlow<List<Currency>>)
         .filter { it.isNotEmpty() }
         .map { State.Content(currencyList = it) as State }
         .onStart { emit(State.Loading) }
