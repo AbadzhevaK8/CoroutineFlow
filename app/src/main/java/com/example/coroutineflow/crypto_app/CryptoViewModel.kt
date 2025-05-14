@@ -17,11 +17,15 @@ class CryptoViewModel : ViewModel() {
 
     private val loadingFlow = MutableSharedFlow<State>()
 
-    private val flowFromRepository = repository.getCurrencyList()
+    val state: Flow<State> = repository.getCurrencyList()
         .filter { it.isNotEmpty() }
         .map { State.Content(currencyList = it) as State }
         .onStart { emit(State.Loading) }
-    val state: Flow<State> = merge(loadingFlow, flowFromRepository)
+        .mergeWith(loadingFlow)
+
+    private fun Flow<State>.mergeWith(another: Flow<State>): Flow<State> {
+        return merge(this, another)
+    }
 
     fun refreshList() {
         viewModelScope.launch {
