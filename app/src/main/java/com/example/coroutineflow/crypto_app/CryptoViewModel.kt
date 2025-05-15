@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 class CryptoViewModel : ViewModel() {
 
     private val repository = CryptoRepository
-
     private val loadingFlow = MutableSharedFlow<State>()
 
     val state: Flow<State> = repository.getCurrencyList()
