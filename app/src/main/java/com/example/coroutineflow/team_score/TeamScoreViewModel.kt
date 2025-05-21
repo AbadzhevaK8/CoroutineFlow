@@ -11,7 +11,7 @@ class TeamScoreViewModel : ViewModel() {
 
     private var cashedState: TeamScoreState = TeamScoreState.Game(0, 0)
 
-    private val _state = MutableSharedFlow<TeamScoreState>()
+    private val _state = MutableSharedFlow<TeamScoreState>(replay = 1)
     val state = _state.asSharedFlow()
         .onEach { cashedState = it }
 
