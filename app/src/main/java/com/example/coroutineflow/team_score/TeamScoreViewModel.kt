@@ -3,7 +3,9 @@ package com.example.coroutineflow.team_score
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -11,8 +13,8 @@ class TeamScoreViewModel : ViewModel() {
 
     private var cashedState: TeamScoreState = TeamScoreState.Game(0, 0)
 
-    private val _state = MutableSharedFlow<TeamScoreState>(replay = 1)
-    val state = _state.asSharedFlow()
+    private val _state = MutableStateFlow<TeamScoreState>(TeamScoreState.Game(0, 0))
+    val state = _state.asStateFlow()
         .onEach { cashedState = it }
 
     fun increaseScore(team: Team) {
