@@ -11,15 +11,12 @@ import kotlinx.coroutines.launch
 
 class TeamScoreViewModel : ViewModel() {
 
-    private var cashedState: TeamScoreState = TeamScoreState.Game(0, 0)
-
     private val _state = MutableStateFlow<TeamScoreState>(TeamScoreState.Game(0, 0))
     val state = _state.asStateFlow()
-        .onEach { cashedState = it }
 
     fun increaseScore(team: Team) {
         viewModelScope.launch {
-            val currentState = cashedState
+            val currentState = state.value
             if (currentState is TeamScoreState.Game) {
                 if (team == Team.TEAM_1) {
                     val oldValue = currentState.score1
