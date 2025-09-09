@@ -2,6 +2,7 @@ package com.example.coroutineflow.lesson13
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.buffer
@@ -19,7 +20,7 @@ suspend fun main() {
                 println("After emit: $it")
                 delay(200)
             }
-        }.buffer()
+        }.buffer(1, BufferOverflow.DROP_OLDEST)
         flow.collect {
             println("Collected: $it")
             delay(1000)
